@@ -1,2 +1,34 @@
-# 10_DevOps_Kubernetes
+# 10 DevOps Kubernetes
 repository to demostrate the container orchestration with Kubernetes
+
+# Deployment of MongoDB and MongoExpress in Kubernetes Cluster
+1. `mongo.yaml` 
+    - configuration of mongoDB deployment
+    - mongo deployment of 1 replica pod is set up
+    - container of mongoDB image is running inside the deployment 
+    - pod container listens on port 27017
+    - authentication data (username and password) are referenced from `mongo-secret.yaml`
+    - includes defintion of internal service defined as default *ClusterIP* service and listening on port 27017 and approaching pod container of mongoDB application on the same port 27017.
+2. `mongo-secret.yaml`
+    - contains key value data of username and password encoded as base64
+    *echo -n "username" | base64*
+3. `mongo-express.yaml` 
+    - deployment of mongo-express docker container listening on port 8081
+    - environmental variables to authenticate in mongoDB are referenced by secret component 
+    - configMap component defines MongoDB URL 
+    - variable containing connection string to access mongoDB using username, password and URL is specified. 
+    - service of *Loadbalancer* type is created to allow internal communication with mongo-express container on the port 8081 (targetPort) and external communication comming from browser on port 30000 (nodePort) as well. Service of Loadbalancer type has external public IP address assigned. 
+4. `mongo-configmap.yaml` 
+    - configMap component defining database URL as service name and port
+
+# kubectl commands
+*minikube start --driver docker* - start minikube as docker container with docker packaged insided the minikube
+- *kubect apply -f <yamlfile>* - start or update configuration inside YAML file
+- *kubectl get all* - get all components running in minikube
+- *kubectl get deployments* - get all deployments
+- *kubectl get replicaset* - get replicaset
+- *kubectl get pods* - get all pods 
+- *kubectl describe service <service_name>* - give a description of service like a port, targetPort, nodePort, type of service, endpoints can be checked here. Endpoint IP should be matching with the IP address of pod running in a deployment, that the service is communicating with. 
+- *kubectl get pod -o wide <pod_name>* - extended info about the pod, including its internal IP address
+- *kubectl logs <pod_name>* - logs inside the pod. 
+- *minikube service <serviceLoadbalancer>* - assign service an external IP address in minikube.
