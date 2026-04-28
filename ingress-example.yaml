@@ -4,20 +4,23 @@ metadata:
   name: myapp-ingress
 spec:
   rules:
-  - host: myapp.com
+  - host: analytics.myapp.com
     http: 
       paths:
-        - path: /analytics
-          pathType: Prefix
+        - path: /
+          pathType: 
           backend:
             service:
               name: analytics-service
               port:
                 number: 3000
-        - path: /shopping
-          pathType: Prefix
+  - host: shopping.myapp.com
+    http: 
+      paths:
+        - path: /
+          pathType: 
           backend:
             service:
               name: shopping-service
               port:
-                number: 8080
+                number: 3000
