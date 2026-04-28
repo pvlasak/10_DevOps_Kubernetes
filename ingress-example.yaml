@@ -7,10 +7,17 @@ spec:
   - host: myapp.com
     http: 
       paths:
-        - path: /
+        - path: /analytics
           pathType: Prefix
           backend:
             service:
-              name: myapp-internal-service
+              name: analytics-service
+              port:
+                number: 3000
+        - path: /shopping
+          pathType: Prefix
+          backend:
+            service:
+              name: shopping-service
               port:
                 number: 8080
