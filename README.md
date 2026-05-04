@@ -2,6 +2,8 @@
 repository to demostrate the container orchestration with Kubernetes
 
 # Deployment of MongoDB and MongoExpress in Kubernetes Cluster
+- main branch: directory `demo-deploying-application`
+
 1. `mongo.yaml` 
     - configuration of mongoDB deployment
     - mongo deployment of 1 replica pod is set up
@@ -21,7 +23,7 @@ repository to demostrate the container orchestration with Kubernetes
 4. `mongo-configmap.yaml` 
     - configMap component defining database URL as service name and port
 
-# kubectl commands
+# Minikube and kubectl commands
 *minikube start --driver docker* - start minikube as docker container with docker packaged insided the minikube
 - *kubect apply -f <yamlfile>* - start or update configuration inside YAML file
 - *kubectl get all* - get all components running in minikube
@@ -32,3 +34,19 @@ repository to demostrate the container orchestration with Kubernetes
 - *kubectl get pod -o wide <pod_name>* - extended info about the pod, including its internal IP address
 - *kubectl logs <pod_name>* - logs inside the pod. 
 - *minikube service <serviceLoadbalancer>* - assign service an external IP address in minikube.
+
+# Ingress 
+- ingress branch
+
+- Ingress component defines the routing rules
+- Implementation of Ingress is ingress controller - evaluates routing rules (ingress rules) and manages redirections. Many different 3rd party implementations of ingress controller. 
+- configure and start Kubernetes NGINX ingress controller in Minikube: *minikube addons enable ingress*
+- `/etc/hosts` file defines mapping between the IP address and hostname 
+- 
+
+# Secret and ConfigMap as Volumes
+
+- ConfigMap or Secret must be created in the cluster before the pod starts and referencing them. 
+- certificate files, authentication data can be part of secret component
+- configuration parameters can be part of Configmap component. 
+- configmap and secret can be mounted to a container inside a pod as a volume using attribute `volumeMounts`. Attribute `mountPath`referenced the path inside a container where the file is available inside the container. 
